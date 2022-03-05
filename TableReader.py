@@ -43,7 +43,7 @@ def get_table_state(videostream):
 
     # Pre-process camera image (gray, blur, and threshold it)
     pre_proc = Cards.preprocess_image(image)
-    cv2.imshow("preprocessimage",pre_proc)
+    #cv2.imshow("preprocessimage",pre_proc)
 	
     # Find and sort the contours of all cards in the image (query cards)
     cnts_sort, cnt_is_card = Cards.find_cards(pre_proc)
@@ -87,7 +87,7 @@ def get_table_state(videostream):
     #cv2.putText(image,"FPS: "+str(int(frame_rate_calc)),(10,26),font,0.7,(255,0,255),2,cv2.LINE_AA)
 
     # Finally, display the image with the identified cards!
-    cv2.imshow("Card Detector",image)
+    #cv2.imshow("Card Detector",image)
 
     # Calculate framerate
     t2 = cv2.getTickCount()
