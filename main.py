@@ -7,7 +7,7 @@ Created on Sat Mar  5 11:36:17 2022
 
 import sixDeck_stay_das_noSur_peek as tables
 
-def is_winning(hand):
+def _is_winning(hand):
     # Treat any Aces as 1
     if sum(hand) == 21:
         return True
@@ -19,7 +19,7 @@ def is_winning(hand):
         return False
 
 def get_action(hand, dealer_card):
-    if is_winning(hand):
+    if _is_winning(hand):
         action = lambda: print("You win!")
     elif sum(hand) > 21:
         action = lambda: print("You busted :(")
