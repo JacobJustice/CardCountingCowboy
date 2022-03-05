@@ -1,0 +1,3 @@
+[submodule "OpenCV-Playing-Card-Detector"]
+	path = OpenCV-Playing-Card-Detector
+	url = https://github.com/JacobJustice/OpenCV-Playing-Card-Detector
