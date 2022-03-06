@@ -70,7 +70,8 @@ class CardCounter():
         else:
             for hand_idx, hand in enumerate(hands):
                 action = get_action(hand, dealer_cards[0])
-                ret = action(mode=mode)
+                double_allowed = (len(hand) == 2)
+                ret = action(mode=mode, double_allowed=double_allowed)
         
         return ret
         
