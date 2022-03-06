@@ -8,6 +8,7 @@ Created on Sat Mar  5 13:13:48 2022
 from copy import deepcopy
 
 from main import get_action # TODO need a better name
+from actions import Modes
 
 class CardCounter():
     def __init__(self, num_decks):
@@ -16,7 +17,7 @@ class CardCounter():
         self.cards_in_play = []
         self.cards_spent = []
         
-    def make_deck():
+    def make_deck(self):
         '''Sugar syntax to make the list representing a full deck'''
         return (list(range(1, 9+1)) + [10]*3)*4
     
@@ -33,7 +34,7 @@ class CardCounter():
                 played.append(card)
         return played
         
-    def receive_update(self, hands, dealer_cards):
+    def receive_update(self, hands, dealer_cards, mode=Modes.MANUAL):
         '''
         
 
@@ -47,11 +48,13 @@ class CardCounter():
         None.
 
         '''
+        ret = None
+        
         # Record previous round cards
         last_cards = self.cards_in_play
         
         # Figure out what's in play right now
-        self.cards_in_play = dealer_cards
+        self.cards_in_play = deepcopy(dealer_cards)
         for hand in hands:
             self.cards_in_play.extend(hand)
             
@@ -65,9 +68,12 @@ class CardCounter():
             # Play has finished, just log the cards so that we know what's been played
             pass
         else:
-            for hand_idx, hand in hands:
-                action = get_action(hand)
-                action()
+            for hand_idx, hand in enumerate(hands):
+                action = get_action(hand, dealer_cards[0])
+                double_allowed = (len(hand) == 2)
+                ret = action(mode=mode, double_allowed=double_allowed)
+        
+        return ret
         
     
     def end_round(self):
@@ -81,4 +87,3 @@ class CardCounter():
         '''
         self.cards_spent += self.cards_in_play
         self.cards_in_play = []
-        
