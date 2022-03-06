@@ -6,23 +6,28 @@ Created on Sat Mar  5 11:36:17 2022
 """
 
 import sixDeck_stay_das_noSur_peek as tables
+from actions import bust, win
 
-def _is_winning(hand):
-    # Treat any Aces as 1
-    if sum(hand) == 21:
-        return True
-    elif 1 in hand:
-        # Replace one Ace with 11
-        # Note: will never want to replace more than 1
-        return sum(hand) + 10 == 21
-    else:
-        return False
+def soft_sum(hand):
+    '''Returns the point value of the hand.
+    If no aces: sum of hand
+    If aces:
+        sum of hand with one ace as 11
+        If sum > 21:
+            sum of hand with aces as 1
+    '''
+    best = sum(hand)
+    if 1 in hand:
+        eleven = sum(hand) + 10
+        if eleven > best and eleven <= 21:
+            best = eleven
+    return best
 
 def get_action(hand, dealer_card):
-    if _is_winning(hand):
-        action = lambda: print("You win!")
-    elif sum(hand) > 21:
-        action = lambda: print("You busted :(")
+    if soft_sum(hand) == 21:
+        action = win
+    elif soft_sum(hand) > 21:
+        action = bust
     elif (len(hand) == 2
           and hand[0] == hand[1]):
         table = tables.pairs
